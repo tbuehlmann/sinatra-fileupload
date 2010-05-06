@@ -29,7 +29,7 @@ class FileUpload < Sinatra::Base
   end
   
   get '/' do
-    @files = settings.public.join('files').entries - [Pathname('.'), Pathname('..')]
+    @files = settings.public.join('files').entries - [Pathname.new('.'), Pathname.new('..')]
     
     @flash = session[:flash]
     session[:flash] = nil
