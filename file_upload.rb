@@ -11,7 +11,7 @@ class FileUpload < Sinatra::Base
 
     set :views,  File.join(File.dirname(__FILE__), 'views')
     set :public, File.join(File.dirname(__FILE__), 'public')
-    set :files,  File.join(public, 'files')
+    set :files,  File.join(settings.public, 'files')
   end
 
   helpers do
