@@ -1,5 +1,7 @@
-A simple Sinatra file upload application
+# A simple Sinatra file upload application
 
-Starting:
+## Setup using [Bundler](http://gembundler.com/ "Bundler")
+    $ bundle install
 
-`$ rackup config.ru`
+## Starting
+    $ rackup config.ru
