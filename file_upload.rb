@@ -1,17 +1,17 @@
 # encoding: utf-8
 
-require 'rubygems'
-require 'haml'
 require 'sinatra/base'
+require 'slim'
 
 class FileUpload < Sinatra::Base
   configure do
     enable :static
     enable :sessions
 
-    set :views,  File.join(File.dirname(__FILE__), 'views')
+    set :views, File.join(File.dirname(__FILE__), 'views')
     set :public_folder, File.join(File.dirname(__FILE__), 'public')
-    set :files,  File.join(settings.public_folder, 'files')
+    set :files, File.join(settings.public_folder, 'files')
+    set :unallowed_paths, ['.', '..']
   end
 
   helpers do
@@ -20,21 +20,22 @@ class FileUpload < Sinatra::Base
     end
   end
 
+  before do
+    @flash = session.delete(:flash)
+  end
+
   not_found do
-    haml '404'
+    slim 'h1 404'
   end
 
   error do
-    haml "Error (#{request.env['sinatra.error']})"
+    slim "Error (#{request.env['sinatra.error']})"
   end
 
   get '/' do
-    @files = Dir.entries(settings.files) - ['.', '..']
+    @files = Dir.entries(settings.files) - settings.unallowed_paths
 
-    @flash = session[:flash]
-    session[:flash] = nil
-
-    haml :index
+    slim :index
   end
   
   post '/upload' do
@@ -42,9 +43,11 @@ class FileUpload < Sinatra::Base
       filename = params[:file][:filename]
       file = params[:file][:tempfile]
 
-      File.open(File.join(settings.files, filename), 'wb') {|f| f.write file.read }
+      File.open(File.join(settings.files, filename), 'wb') do |f|
+        f.write file.read
+      end
 
-      flash 'Uploaded successfully'
+      flash 'Upload successful'
     else
       flash 'You have to choose a file'
     end
@@ -52,4 +55,3 @@ class FileUpload < Sinatra::Base
     redirect '/'
   end
 end
-

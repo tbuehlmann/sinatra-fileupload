@@ -1,0 +1,15 @@
+h1 Sinatra File Upload
+
+- if @flash
+  = @flash
+
+form action='/upload' method='post' enctype='multipart/form-data'
+  p
+    input type='file' name='file'
+  p
+    input type='submit' value='Upload'
+h3 Files
+ul
+  - @files.each do |file|
+    li
+      a href='files/#{file}' #{file}
