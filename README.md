@@ -4,4 +4,4 @@
     $ bundle install
 
 ## Starting
-    $ rackup config.ru
+    $ bundle exec rackup config.ru
