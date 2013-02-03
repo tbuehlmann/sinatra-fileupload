@@ -10,8 +10,8 @@ class FileUpload < Sinatra::Base
     enable :sessions
 
     set :views,  File.join(File.dirname(__FILE__), 'views')
-    set :public, File.join(File.dirname(__FILE__), 'public')
-    set :files,  File.join(settings.public, 'files')
+    set :public_folder, File.join(File.dirname(__FILE__), 'public')
+    set :files,  File.join(settings.public_folder, 'files')
   end
 
   helpers do
